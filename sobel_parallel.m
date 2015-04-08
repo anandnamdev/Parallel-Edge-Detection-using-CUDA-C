@@ -13,43 +13,43 @@ ori=myimage;
 
 if dim==3
     
-     k3=parallel.gpu.CUDAKernel('C:\Users\Anand Namdev\Documents\Visual Studio 2013\Projects\minor\kernel3.ptx','C:\Users\Anand Namdev\Documents\Visual Studio 2013\Projects\minor\kernel3.cu');
-     blockSize=32;
-     k3.ThreadBlockSize = [blockSize,1,3];
-     k3.GridSize=[ceil(row/blockSize),col];
-     
+%      k3=parallel.gpu.CUDAKernel('C:\Users\Anand Namdev\Documents\Visual Studio 2013\Projects\minor\kernel3.ptx','C:\Users\Anand Namdev\Documents\Visual Studio 2013\Projects\minor\kernel3.cu');
+%      blockSize=32;
+%      k3.ThreadBlockSize = [blockSize,1,3];
+%      k3.GridSize=[ceil(row/blockSize),col];
+%      
     
      myimage_double=double(myimage); 
+     R=myimage(:,:,1);
+     G=myimage(:,:,2);
+     B=myimage(:,:,3);
      
-     tic;
-     myimage_gpu=gpuArray(myimage_double);
-     out1=gpuArray.zeros(size(myimage(:,:,1)),'double');
-     out2=gpuArray.zeros(size(myimage(:,:,1)),'double');
-     out3=gpuArray.zeros(size(myimage(:,:,1)),'double');
-     toc;
      
-     tic;
-     out1=feval(k3,out1,myimage_gpu,row,col,0); 
-     out2=feval(k3,out2,myimage_gpu,row,col,1); 
-     out3=feval(k3,out3,myimage_gpu,row,col,2); 
-     toc;
-     tic;
-     result_convertR_cpu=gather(out1);
-     result_convertG_cpu=gather(out2);
-     result_convertB_cpu=gather(out3);
-     toc;
-     
-    
-     
-   
-     R=result_convertR_cpu;
-     G=result_convertG_cpu;
-     B=result_convertB_cpu;
+%      tic;
+%      myimage_gpu=gpuArray(myimage_double);
+%      out1=gpuArray.zeros(size(myimage(:,:,1)),'double');
+%      out2=gpuArray.zeros(size(myimage(:,:,1)),'double');
+%      out3=gpuArray.zeros(size(myimage(:,:,1)),'double');
+%      toc;
+%      
+%      tic;
+%      out1=feval(k3,out1,myimage_gpu,row,col,0); 
+%      out2=feval(k3,out2,myimage_gpu,row,col,1); 
+%      out3=feval(k3,out3,myimage_gpu,row,col,2); 
+%      toc;
+%      tic;
+%      result_convertR_cpu=gather(out1);
+%      result_convertG_cpu=gather(out2);
+%      result_convertB_cpu=gather(out3);
+%      toc; 
+%      R=result_convertR_cpu;
+%      G=result_convertG_cpu;
+%      B=result_convertB_cpu;
  
     R=double(R);
     G=double(G);
     B=double(B);
-    gpuDevice(1);
+   
     
      k=parallel.gpu.CUDAKernel('C:\Users\Anand Namdev\Documents\Visual Studio 2013\Projects\minor\kernel.ptx','C:\Users\Anand Namdev\Documents\Visual Studio 2013\Projects\minor\kernel.cu');
     blockSize=32;
